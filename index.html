@@ -160,7 +160,7 @@
             overflow: hidden;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 255, 0.5);
             clip-path: inset(0 50% 0 50%);
-            animation: reveal-from-center 2s cubic-bezier(0.7, 0, 0.3, 1) forwards, fade-glow-white 2s linear forwards;
+            animation: reveal-from-center 1.5s cubic-bezier(0.7, 0, 0.3, 1) forwards, fade-glow-white 1.5s linear forwards;
         }
         @keyframes reveal-from-center {
             from { clip-path: inset(0 50% 0 50%); }
@@ -199,7 +199,7 @@
 
     <!-- START: Story Modal -->
     <div id="story-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden opacity-0 p-4">
-        <div id="story-modal-content" class="glass-effect rounded-lg max-w-4xl w-full transform scale-95 opacity-0 flex flex-col md:flex-row overflow-hidden">
+        <div id="story-modal-content" class="glass-effect rounded-lg max-w-4xl w-full transform scale-95 opacity-0 flex flex-col md:flex-row max-h-[85vh] overflow-y-auto md:overflow-y-hidden">
             <div class="md:w-1/2">
                 <img id="story-modal-img" src="" alt="Artwork Story" class="w-full h-full object-cover">
             </div>
@@ -326,7 +326,6 @@
             let heroAnimationRunner = null;
 
             async function runAnimationCycle() {
-                // FIX: Make the container visible before starting the animation
                 container.style.opacity = '1';
 
                 const currentSentenceLines = sentences[sentenceIndex];
@@ -358,10 +357,10 @@
                     await new Promise(resolve => setTimeout(resolve, 50));
                     lineDiv.style.opacity = '1';
 
-                    await new Promise(resolve => setTimeout(resolve, 1200)); 
+                    await new Promise(resolve => setTimeout(resolve, 800)); 
                 }
 
-                const pauseDuration = sentenceIndex === 1 ? 7000 : 3000;
+                const pauseDuration = sentenceIndex === 1 ? 9000 : 2000;
                 await new Promise(resolve => setTimeout(resolve, pauseDuration));
 
                 for (const el of createdLineElements) {
@@ -385,7 +384,7 @@
                     title: "Wukong's Stand",
                     description: 'A mythical warrior stands against a rising sun, embodying power and legend.',
                     imageUrl: 'img/01.jpg',
-                    story: "Black Myth Wukong is an action RPG based on the classic 16th-century novel Journey to the West. It was first revealed with a stunning gameplay trailer in 2020. Developed by China's Game Science Studio, the game's popularity surged after the trailer's release, capitalizing on the Monkey King's iconic reputation as a rebellious, powerful, and beloved figure in Chinese mythology."
+                    story: "This piece was inspired by the ancient tales of the Monkey King. The goal was to capture a moment of quiet strength before a great battle, using the stark contrast of the silhouette against a vibrant, hopeful dawn."
                 },
                 {
                     id: 'art2',
@@ -405,21 +404,21 @@
                     id: 'art4',
                     title: "Ceylon's Finest",
                     description: 'Vibrant product promotion capturing the fresh, natural essence of local cashews.',
-                    imageUrl: 'img/04.jpg',
+                    imageUrl: 'img/03.jpg',
                     story: "For this commercial project, the client wanted to emphasize the natural and premium quality of their cashews. I used a rich, earthy color palette and dynamic composition to make the product feel both wholesome and exciting."
                 },
                 {
                     id: 'art5',
                     title: 'Grand Opening',
                     description: 'A dynamic and smoky announcement, celebrating a new beginning with flavor.',
-                    imageUrl: 'img/05.jpg',
+                    imageUrl: 'img/04.jpg',
                     story: "This design was created for the launch of a new restaurant. The smoky, energetic visuals were crafted to evoke the sizzle and aroma of a bustling kitchen, building anticipation for the grand opening."
                 },
                 {
                     id: 'art6',
                     title: 'The GOAT',
                     description: 'A tribute to greatness, capturing the focus and legacy of a sporting icon.',
-                    imageUrl: 'img/06.jpg',
+                    imageUrl: 'img/05.jpg',
                     story: "A personal project celebrating a sports hero. The artwork is intentionally minimalistic, focusing on the intense gaze and iconic silhouette to convey a sense of legacy and unparalleled greatness."
                 }
             ];
