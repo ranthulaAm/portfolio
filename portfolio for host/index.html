@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranthula's Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-light: #1E1E1E;
+            --text-light: #E0E0E0;
+            --accent-purple: #4c00ff;
+            --accent-magenta: #ff007f;
+            --accent-orange: #ff8c00;
+            --gradient-opacity: 0.3;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Lato', sans-serif;
+            cursor: auto;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-magenta), var(--accent-orange));
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+            opacity: var(--gradient-opacity);
+            transition: opacity 4s ease-in-out;
+        }
+        .font-righteous {
+            font-family: 'Righteous', cursive;
+        }
+        .section-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            transition: opacity 4s ease-in-out;
+        }
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .content-section {
+            position: relative;
+            z-index: 1;
+            background-color: var(--bg-dark);
+        }
+        .hero-section {
+            background-color: transparent;
+        }
+        .glass-effect, .product-card, .container {
+            position: relative;
+            z-index: 1;
+        }
+        .glass-effect {
+            background: rgba(30, 30, 30, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: var(--accent-magenta);
+            transition: width .3s;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .product-card-container {
+            perspective: 1000px;
+        }
+        .product-card {
+            background-color: var(--bg-light);
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            will-change: transform;
+        }
+        .product-image-wrapper {
+            background-color: #000;
+            transition: background 0.5s ease-in-out;
+            aspect-ratio: 1 / 1;
+        }
+        .glowing-button {
+            position: relative;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-magenta));
+            animation: static-glow 2s ease-in-out infinite;
+        }
+        @keyframes static-glow {
+            0%, 100% {
+                box-shadow: 0 0 5px var(--accent-magenta), 0 0 15px var(--accent-magenta), 0 0 25px var(--accent-purple), 0 0 35px var(--accent-orange);
+            }
+            50% {
+                box-shadow: 0 0 10px var(--accent-magenta), 0 0 25px var(--accent-magenta), 0 0 40px var(--accent-purple), 0 0 55px var(--accent-orange);
+            }
+        }
+        
+        .animation-container {
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .line {
+            position: relative;
+            display: block;
+            font-family: 'Righteous', cursive;
+            font-size: 2.5rem;
+            line-height: 1.3;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: transparent;
+            white-space: pre-wrap;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        @media (min-width: 768px) {
+            .line {
+                font-size: 4rem;
+            }
+        }
+        .line-fg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: white;
+            overflow: hidden;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 255, 0.5);
+            clip-path: inset(0 50% 0 50%);
+            animation: reveal-from-center 2s cubic-bezier(0.7, 0, 0.3, 1) forwards, fade-glow-white 2s linear forwards;
+        }
+        @keyframes reveal-from-center {
+            from { clip-path: inset(0 50% 0 50%); }
+            to { clip-path: inset(0 0 0 0); }
+        }
+        @keyframes fade-glow-white {
+            0%, 50% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 255, 0.5); }
+            100% { text-shadow: none; }
+        }
+
+        #story-modal-backdrop {
+            transition: opacity 0.3s ease-in-out;
+        }
+        #story-modal-content {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            border-top: 4px solid transparent;
+        }
+        /* New styles for letter animation */
+        #story-modal-text span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        #story-modal-text span.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden p-4">
+        <img id="lightbox-img" src="" alt="Full-size view" class="max-w-full max-h-full object-contain rounded-lg">
+        <button id="lightbox-close" class="absolute top-6 right-6 text-white text-5xl font-bold">&times;</button>
+    </div>
+
+    <!-- START: Story Modal -->
+    <div id="story-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden opacity-0 p-4">
+        <div id="story-modal-content" class="glass-effect rounded-lg max-w-4xl w-full transform scale-95 opacity-0 flex flex-col md:flex-row overflow-hidden">
+            <div class="md:w-1/2">
+                <img id="story-modal-img" src="" alt="Artwork Story" class="w-full h-full object-cover">
+            </div>
+            <div class="md:w-1/2 p-8 flex flex-col">
+                <h3 id="story-modal-title" class="font-righteous text-3xl mb-4"></h3>
+                <div id="story-text-container" class="overflow-y-auto pr-4 flex-grow">
+                    <p id="story-modal-text" class="text-gray-300"></p>
+                </div>
+                <button id="story-modal-close" class="mt-6 bg-purple-600 text-white font-bold font-righteous py-2 px-5 rounded-full hover:bg-purple-700 transition-colors self-start">Close</button>
+            </div>
+        </div>
+    </div>
+    <!-- END: Story Modal -->
+
+
+    <header class="fixed top-0 left-0 right-0 z-40 glass-effect">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="font-righteous text-3xl font-bold text-white">RA</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#store" class="text-white font-semibold nav-link">Store</a>
+                <a href="#artist" class="text-white font-semibold nav-link">The Artist</a>
+                <a href="#contact" class="bg-white text-black font-bold font-righteous py-2 px-5 rounded-full hover:bg-opacity-80 transition-colors">Contact</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#store" class="block text-center py-2 px-4 text-sm text-white hover:bg-gray-700">Store</a>
+            <a href="#artist" class="block text-center py-2 px-4 text-sm text-white hover:bg-gray-700">The Artist</a>
+            <a href="#contact" class="block text-center py-4 px-4 text-sm text-white font-bold bg-gray-800 hover:bg-gray-700">Contact</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="h-screen flex items-center justify-center relative overflow-hidden hero-section">
+            <canvas id="hero-canvas" class="section-canvas" data-animation-type="hero"></canvas>
+            <div class="container mx-auto px-6 relative z-10">
+                <div id="animation-container" class="animation-container">
+                    <!-- Animated text will be generated here by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <section id="store" class="py-20 md:py-32 content-section">
+            <canvas class="section-canvas" data-animation-type="circles"></canvas>
+            <div class="container mx-auto px-6">
+                <h2 class="font-righteous text-4xl md:text-6xl text-center mb-16 scroll-reveal">The Collection</h2>
+                <div id="store-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+                    <!-- Product cards will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <section id="artist" class="py-20 md:py-32 content-section">
+            <canvas class="section-canvas" data-animation-type="squares"></canvas>
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="scroll-reveal">
+                        <h2 class="font-righteous text-4xl md:text-6xl mb-6">About the Artist</h2>
+                        <p class="text-lg leading-relaxed mb-4">I am a multidisciplinary designer specializing in building aspirational brands. My philosophy is that true luxury is found in meticulous detail, strategic thinking, and a seamless fusion of beauty and function. I don't just create visuals; I build legacies.</p>
+                        <p class="text-lg leading-relaxed">With over a decade of experience partnering with elite clientele, I transform ambitious visions into tangible, market-defining assets. My process is collaborative, transparent, and relentlessly focused on delivering exceptional value.</p>
+                    </div>
+                    <div class="scroll-reveal" style="transition-delay: 200ms;">
+                         <div class="glass-effect rounded-lg p-8 border border-purple-500/20">
+                            <div class="flex flex-col sm:flex-row-reverse items-center gap-8">
+                                <div class="product-card-container flex-shrink-0">
+                                    <div id="artist-photo-card" class="product-card bg-transparent shadow-none">
+                                        <img 
+                                            src="https://i.ibb.co/gDFdM2G/ranthula.jpg" 
+                                            alt="A photo of the artist" 
+                                            class="w-36 h-36 md:w-40 md:h-40 object-cover rounded-2xl border-2 border-purple-500">
+                                    </div>
+                                </div>
+                                <div class="flex-grow">
+                                    <h3 class="font-righteous text-2xl mb-4 text-center sm:text-left" style="color: var(--accent-magenta)">Areas of Mastery</h3>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-center"><span style="background:var(--accent-magenta)" class="w-3 h-3 rounded-full mr-3"></span>Luxury Brand Strategy</li>
+                                        <li class="flex items-center"><span style="background:var(--accent-magenta)" class="w-3 h-3 rounded-full mr-3"></span>Bespoke Web Architecture</li>
+                                        <li class="flex items-center"><span style="background:var(--accent-magenta)" class="w-3 h-3 rounded-full mr-3"></span>Digital Product Design (UI/UX)</li>
+                                        <li class="flex items-center"><span style="background:var(--accent-magenta)" class="w-3 h-3 rounded-full mr-3"></span>Art Direction & Visual Identity</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 md:py-32 content-section">
+            <canvas class="section-canvas" data-animation-type="raining-lines"></canvas>
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="font-righteous text-4xl md:text-6xl scroll-reveal">Begin Your Legacy Project</h2>
+                <p class="mt-4 text-lg max-w-2xl mx-auto scroll-reveal" style="transition-delay: 100ms;">Ready to create something extraordinary? Let's discuss your vision.</p>
+                <div class="mt-10 scroll-reveal" style="transition-delay: 200ms;">
+                    <a href="https://wa.link/15nuof" class="glowing-button inline-block text-white font-bold font-righteous text-lg py-4 px-10 rounded-full hover:opacity-90 transition-opacity duration-300">
+                       Contact Me
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background-color: #1E1E1E;" class="py-8 content-section">
+        <div class="container mx-auto px-6 text-center text-gray-400">
+            <p>&copy; 2025 Ranthula Amarasekara. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- START: Line-by-Line Glowing Text Animation ---
+            const container = document.getElementById('animation-container');
+            const heroCanvas = document.getElementById('hero-canvas');
+            const sentences = [
+                ["Hi!", "I'm Ranthula"],
+                ["Bring your ideas", "to life with", "vivid visuals!"]
+            ];
+            let sentenceIndex = 0;
+            let heroAnimationRunner = null;
+
+            async function runAnimationCycle() {
+                const currentSentenceLines = sentences[sentenceIndex];
+                const createdLineElements = [];
+
+                if (sentenceIndex === 0) {
+                    document.documentElement.style.setProperty('--gradient-opacity', '0.3');
+                    if (heroCanvas) heroCanvas.style.opacity = '0';
+                    if (heroAnimationRunner) heroAnimationRunner.stop();
+                } else if (sentenceIndex === 1) {
+                    if (heroAnimationRunner) heroAnimationRunner.start();
+                    if (heroCanvas) heroCanvas.style.opacity = '1';
+                    setTimeout(() => document.documentElement.style.setProperty('--gradient-opacity', '1'), 100);
+                }
+
+                for (const lineText of currentSentenceLines) {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'line';
+                    lineDiv.textContent = lineText;
+                    
+                    const lineFgDiv = document.createElement('div');
+                    lineFgDiv.className = 'line-fg';
+                    lineFgDiv.textContent = lineText;
+                    
+                    lineDiv.appendChild(lineFgDiv);
+                    container.appendChild(lineDiv);
+                    createdLineElements.push(lineDiv);
+
+                    await new Promise(resolve => setTimeout(resolve, 50));
+                    lineDiv.style.opacity = '1';
+
+                    await new Promise(resolve => setTimeout(resolve, 1200)); 
+                }
+
+                const pauseDuration = sentenceIndex === 1 ? 7000 : 3000;
+                await new Promise(resolve => setTimeout(resolve, pauseDuration));
+
+                for (const el of createdLineElements) {
+                    el.style.opacity = '0';
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                container.innerHTML = '';
+
+                sentenceIndex = (sentenceIndex + 1) % sentences.length;
+                runAnimationCycle();
+            }
+            
+            // --- END: Line-by-Line Glowing Text Animation ---
+
+
+            const portfolioData = [
+                {
+                    id: 'art1',
+                    title: "Wukong's Stand",
+                    description: 'A mythical warrior stands against a rising sun, embodying power and legend.',
+                    imageUrl: '01.jpg',
+                    story: "Black Myth Wukong is an action RPG based on the classic 16th-century novel Journey to the West. It was first revealed with a stunning gameplay trailer in 2020. Developed by China's Game Science Studio, the game's popularity surged after the trailer's release, capitalizing on the Monkey King's iconic reputation as a rebellious, powerful, and beloved figure in Chinese mythology."
+                },
+                {
+                    id: 'art2',
+                    title: 'Golden Rivalry',
+                    description: "Anticipation builds for the 'Battle of Gold and Yellow', a modern gladiator's moment.",
+                    imageUrl: '02.jpg',
+                    story: "A commission for a local sports tournament, this artwork focuses on the intense psychological moment between two rivals. The use of gold and yellow represents the two competing houses, creating a visual metaphor for the clash."
+                },
+                {
+                    id: 'art3',
+                    title: 'Stormy Pitch',
+                    description: 'A lone figure on a desolate pitch under a stormy sky. The calm before the battle.',
+                    imageUrl: '03.jpg',
+                    story: "Exploring themes of isolation and determination, this piece places a solitary figure in a vast, intimidating landscape. The approaching storm symbolizes the internal and external challenges one must face."
+                },
+                {
+                    id: 'art4',
+                    title: "Ceylon's Finest",
+                    description: 'Vibrant product promotion capturing the fresh, natural essence of local cashews.',
+                    imageUrl: '04.jpg',
+                    story: "For this commercial project, the client wanted to emphasize the natural and premium quality of their cashews. I used a rich, earthy color palette and dynamic composition to make the product feel both wholesome and exciting."
+                },
+                {
+                    id: 'art5',
+                    title: 'Grand Opening',
+                    description: 'A dynamic and smoky announcement, celebrating a new beginning with flavor.',
+                    imageUrl: '05.jpg',
+                    story: "This design was created for the launch of a new restaurant. The smoky, energetic visuals were crafted to evoke the sizzle and aroma of a bustling kitchen, building anticipation for the grand opening."
+                },
+                {
+                    id: 'art6',
+                    title: 'The GOAT',
+                    description: 'A tribute to greatness, capturing the focus and legacy of a sporting icon.',
+                    imageUrl: '06.jpg',
+                    story: "A personal project celebrating a sports hero. The artwork is intentionally minimalistic, focusing on the intense gaze and iconic silhouette to convey a sense of legacy and unparalleled greatness."
+                }
+            ];
+
+            // --- Global Element Selectors ---
+            const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxClose = document.getElementById('lightbox-close');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const storeGrid = document.getElementById('store-grid');
+            
+            // --- Story Modal Elements ---
+            const storyModalBackdrop = document.getElementById('story-modal-backdrop');
+            const storyModalContent = document.getElementById('story-modal-content');
+            const storyModalImg = document.getElementById('story-modal-img');
+            const storyModalTitle = document.getElementById('story-modal-title');
+            const storyModalText = document.getElementById('story-modal-text');
+            const storyModalClose = document.getElementById('story-modal-close');
+
+            // --- Dynamic Product Card Generation ---
+            function generateProductCards() {
+                portfolioData.forEach((item, index) => {
+                    const cardHTML = `
+                        <div class="product-card-container scroll-reveal" style="transition-delay: ${index * 100}ms;">
+                            <div class="product-card rounded-lg overflow-hidden flex flex-col h-full" data-glow-id="${item.id}" data-item-id="${item.id}">
+                                <div class="product-image-wrapper w-full overflow-hidden cursor-pointer" data-src="${item.imageUrl}">
+                                   <img src="${item.imageUrl}" crossorigin="anonymous" onerror="this.onerror=null;this.src='https://placehold.co/600x600/121212/E0E0E0?text=Image+Not+Found';" alt="${item.title}" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500 ease-in-out">
+                                </div>
+                                <div class="p-6 flex-grow flex flex-col">
+                                    <h3 class="font-righteous text-2xl mb-2">${item.title}</h3>
+                                    <p class="text-gray-400 text-sm mb-4 flex-grow">${item.description}</p>
+                                    <button class="glowing-button mt-auto w-full text-white font-bold font-righteous py-2 px-4 rounded-full hover:opacity-90 transition-opacity story-button" data-glow-id="${item.id}">Story of the Art</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    storeGrid.innerHTML += cardHTML;
+                });
+            }
+            
+            generateProductCards();
+
+            // --- Dynamic Gradient and 3D Effect Logic ---
+            const colorThief = new ColorThief();
+            const productCards = document.querySelectorAll('.product-card'); 
+            const styleSheet = document.createElement("style");
+            document.head.appendChild(styleSheet);
+
+            productCards.forEach(card => {
+                const imgElement = card.querySelector('img');
+                const wrapper = card.querySelector('.product-image-wrapper');
+                const glowId = card.dataset.glowId;
+
+                if (!glowId || !imgElement || !wrapper) return;
+
+                const setDynamicStyles = (img) => {
+                    if (img.naturalHeight === 0) {
+                        console.error("Image loaded but has no height, cannot get palette.", img.src);
+                        wrapper.style.background = '#1E1E1E';
+                        return;
+                    }
+
+                    try {
+                        const palette = colorThief.getPalette(img, 3);
+                        const color1 = `rgb(${palette[0].join(',')})`;
+                        const color2 = `rgb(${palette[1].join(',')})`;
+                        const color3 = `rgb(${palette[2].join(',')})`;
+                        
+                        wrapper.style.background = `linear-gradient(135deg, ${color1}, ${color2})`;
+
+                        const keyframesRule = `
+                            @keyframes glow-${glowId} {
+                                0%, 100% { box-shadow: 0 0 5px ${color2}, 0 0 15px ${color2}, 0 0 25px ${color1}, 0 0 35px ${color3}; }
+                                50% { box-shadow: 0 0 10px ${color2}, 0 0 25px ${color2}, 0 0 40px ${color1}, 0 0 55px ${color3}; }
+                            }`;
+                        
+                        const buttonRule = `
+                            .glowing-button[data-glow-id="${glowId}"] {
+                                background: linear-gradient(90deg, ${color1}, ${color2});
+                                animation: glow-${glowId} 2s ease-in-out infinite;
+                            }`;
+
+                        const cardHoverRule = `
+                            .product-card[data-glow-id="${glowId}"]:hover {
+                                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px ${color1};
+                            }`;
+
+                        styleSheet.sheet.insertRule(keyframesRule, styleSheet.sheet.cssRules.length);
+                        styleSheet.sheet.insertRule(buttonRule, styleSheet.sheet.cssRules.length);
+                        styleSheet.sheet.insertRule(cardHoverRule, styleSheet.sheet.cssRules.length);
+
+                    } catch (e) {
+                        console.error("Error applying dynamic styles for image:", img.src, e);
+                        wrapper.style.background = '#000';
+                    }
+                };
+                
+                if (imgElement.complete && imgElement.naturalHeight > 0) {
+                    setDynamicStyles(imgElement);
+                } else {
+                    imgElement.addEventListener('load', function() {
+                        setDynamicStyles(this);
+                    });
+                    imgElement.addEventListener('error', function() {
+                        console.error("Failed to load image:", this.src);
+                        wrapper.style.background = '#121212';
+                    });
+                }
+
+                const cardContainer = card.closest('.product-card-container');
+                if(cardContainer) {
+                    cardContainer.addEventListener('mousemove', (e) => {
+                        const rect = cardContainer.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        const { width, height } = rect;
+                        const rotateX = (y / height - 0.5) * -15;
+                        const rotateY = (x / width - 0.5) * 15;
+                        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                    });
+
+                    cardContainer.addEventListener('mouseleave', () => {
+                        card.style.transform = 'rotateX(0) rotateY(0)';
+                    });
+                }
+            });
+            
+            // --- Story Modal Logic ---
+            let storyAnimationTimeouts = [];
+            function openStoryModal(item) {
+                storyModalTitle.textContent = `The Story Behind "${item.title}"`;
+                storyModalText.innerHTML = '';
+                storyModalImg.src = item.imageUrl;
+
+                const tempImg = new Image();
+                tempImg.crossOrigin = "Anonymous";
+                tempImg.src = item.imageUrl;
+                tempImg.onload = () => {
+                    const color = colorThief.getColor(tempImg);
+                    storyModalContent.style.borderColor = `rgb(${color.join(',')})`;
+                }
+                
+                storyModalBackdrop.classList.remove('hidden');
+                setTimeout(() => {
+                    storyModalBackdrop.classList.remove('opacity-0');
+                    storyModalContent.classList.remove('opacity-0', 'scale-95');
+                    animateStoryText(item.story);
+                }, 10);
+            }
+
+            function closeStoryModal() {
+                storyAnimationTimeouts.forEach(clearTimeout);
+                storyAnimationTimeouts = [];
+                storyModalContent.classList.add('opacity-0', 'scale-95');
+                storyModalBackdrop.classList.add('opacity-0');
+                setTimeout(() => {
+                    storyModalBackdrop.classList.add('hidden');
+                }, 300);
+            }
+
+            function animateStoryText(text) {
+                storyModalText.innerHTML = ''; // Clear previous content
+                const characters = text.split('');
+                characters.forEach((char, index) => {
+                    const span = document.createElement('span');
+                    if (char === ' ') {
+                        span.innerHTML = '&nbsp;';
+                    } else {
+                        span.textContent = char;
+                    }
+                    storyModalText.appendChild(span);
+
+                    const timeoutId = setTimeout(() => {
+                        span.classList.add('visible');
+                    }, index * 20); // Staggered delay for each character
+                    storyAnimationTimeouts.push(timeoutId);
+                });
+            }
+
+            storeGrid.addEventListener('click', (e) => {
+                const storyButton = e.target.closest('.story-button');
+                if (storyButton) {
+                    const card = storyButton.closest('.product-card');
+                    const itemId = card.dataset.itemId;
+                    const itemData = portfolioData.find(item => item.id === itemId);
+                    if (itemData) {
+                        openStoryModal(itemData);
+                    }
+                }
+            });
+
+            storyModalClose.addEventListener('click', closeStoryModal);
+            storyModalBackdrop.addEventListener('click', (e) => {
+                if (e.target === storyModalBackdrop) {
+                    closeStoryModal();
+                }
+            });
+
+
+            // --- START: Add 3D effect to Artist Photo ---
+            const artistPhotoCard = document.getElementById('artist-photo-card');
+            if (artistPhotoCard) {
+                artistPhotoCard.addEventListener('mousemove', (e) => {
+                    const rect = artistPhotoCard.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const { width, height } = rect;
+                    const rotateX = (y / height - 0.5) * -15; // Invert rotation for natural feel
+                    const rotateY = (x / width - 0.5) * 15;
+                    artistPhotoCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.1, 1.1, 1.1)`;
+                    artistPhotoCard.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.5)'; // Add shadow on hover
+                });
+
+                artistPhotoCard.addEventListener('mouseleave', () => {
+                    artistPhotoCard.style.transform = 'rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                    artistPhotoCard.style.boxShadow = 'none'; // Remove shadow on leave
+                });
+            }
+            // --- END: Add 3D effect to Artist Photo ---
+
+
+            // --- Section-based Canvas Animations ---
+            const animationRunners = new Map();
+            const animationObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const canvas = entry.target.querySelector('.section-canvas');
+                    if (!canvas) return;
+
+                    // Special handling for the hero canvas, which is controlled manually
+                    if (canvas.id === 'hero-canvas') {
+                        if (!heroAnimationRunner) {
+                            heroAnimationRunner = new AnimationRunner(canvas);
+                            // We start the text animation cycle which will in turn start this one
+                            runAnimationCycle();
+                        }
+                        return; 
+                    }
+
+                    if (entry.isIntersecting) {
+                        if (!animationRunners.has(canvas)) {
+                            const runner = new AnimationRunner(canvas);
+                            animationRunners.set(canvas, runner);
+                            runner.start();
+                        }
+                    } else {
+                        if (animationRunners.has(canvas)) {
+                            animationRunners.get(canvas).stop();
+                            animationRunners.delete(canvas);
+                        }
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('section').forEach(section => animationObserver.observe(section));
+            
+            class AnimationRunner {
+                constructor(canvas) {
+                    this.canvas = canvas;
+                    this.ctx = canvas.getContext('2d');
+                    this.animationType = canvas.dataset.animationType;
+                    this.elements = [];
+                    this.animationFrameId = null;
+                    this.resize();
+                    this.init();
+                    window.addEventListener('resize', () => this.resize());
+                }
+                resize() {
+                    const parent = this.canvas.parentElement;
+                    this.canvas.width = parent.clientWidth;
+                    this.canvas.height = parent.clientHeight;
+                    this.init();
+                }
+                init() {
+                    this.elements = [];
+                    let numElements;
+                    switch(this.animationType) {
+                        case 'hero':
+                            numElements = 50;
+                            for (let i = 0; i < numElements; i++) this.elements.push(new HeroLine(this.canvas));
+                            break;
+                        case 'circles':
+                            numElements = 25;
+                            for (let i = 0; i < numElements; i++) this.elements.push(new Circle(this.canvas));
+                            break;
+                        case 'triangles':
+                            numElements = 30;
+                            for (let i = 0; i < numElements; i++) this.elements.push(new Triangle(this.canvas));
+                            break;
+                        case 'squares':
+                             numElements = 40;
+                            for (let i = 0; i < numElements; i++) this.elements.push(new Square(this.canvas));
+                            break;
+                        case 'raining-lines':
+                             numElements = 80;
+                            for (let i = 0; i < numElements; i++) this.elements.push(new RainingLine(this.canvas));
+                            break;
+                    }
+                }
+                animate() {
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    this.elements.forEach(el => {
+                        el.draw(this.ctx);
+                        el.update();
+                    });
+                    this.animationFrameId = requestAnimationFrame(() => this.animate());
+                }
+                start() {
+                    if (!this.animationFrameId) this.animate();
+                }
+                stop() {
+                    if (this.animationFrameId) {
+                        cancelAnimationFrame(this.animationFrameId);
+                        this.animationFrameId = null;
+                    }
+                }
+            }
+            
+            class HeroLine {
+                constructor(canvas) {
+                    this.canvas = canvas;
+                    this.x = Math.random() * this.canvas.width;
+                    this.y = Math.random() * this.canvas.height;
+                    this.history = [{x: this.x, y: this.y}];
+                    this.lineWidth = Math.random() * 3.5 + 1.5;
+                    this.maxLength = Math.floor(Math.random() * 300 + 200);
+                    this.speedX = Math.random() * 2 - 1;
+                    this.speedY = Math.random() * 2 - 1;
+                    this.life = this.maxLength * 2;
+                    this.timer = 0;
+                    this.color = `rgba(255, 255, 255, ${Math.random() * 0.3 + 0.15})`;
+                }
+                draw(c) { c.strokeStyle = this.color; c.lineWidth = this.lineWidth; c.beginPath(); c.moveTo(this.history[0].x, this.history[0].y); for (const p of this.history) c.lineTo(p.x, p.y); c.stroke(); }
+                update() { this.timer++; if (this.timer < this.life){ this.x += this.speedX + Math.sin(this.timer * 0.02) * 0.8; this.y += this.speedY + Math.cos(this.timer * 0.02) * 0.8; this.history.push({x: this.x, y: this.y}); if (this.history.length > this.maxLength) this.history.shift(); } else if (this.history.length > 1) { this.history.shift(); } else { this.reset(); } }
+                reset() { this.x = Math.random() * this.canvas.width; this.y = Math.random() * this.canvas.height; this.history = [{x: this.x, y: this.y}]; this.timer = 0; }
+            }
+            class Circle {
+                constructor(c) { this.c = c; this.x = Math.random()*c.width; this.y = Math.random()*c.height; this.r = Math.random()*100+30; this.vx = Math.random()*0.4-0.2; this.vy = Math.random()*0.4-0.2; this.color = `rgba(255,255,255,${Math.random()*0.15+0.05})`; }
+                draw(x) { x.fillStyle = this.color; x.beginPath(); x.arc(this.x, this.y, this.r, 0, Math.PI*2); x.fill(); }
+                update() { this.x += this.vx; this.y += this.vy; if (this.x<-this.r || this.x>this.c.width+this.r || this.y<-this.r || this.y>this.c.height+this.r) this.reset(); }
+                reset() { this.x = Math.random()*this.c.width; this.y = Math.random()*this.c.height; }
+            }
+            class Triangle {
+                constructor(c) { this.c = c; this.x = Math.random()*c.width; this.y = Math.random()*c.height; this.s = Math.random()*50+15; this.vx = Math.random()*0.3-0.15; this.vy = Math.random()*0.3-0.15; this.a = 0; this.va = Math.random()*0.02-0.01; this.color = `rgba(255,255,255,${Math.random()*0.2+0.05})`; }
+                draw(x) { x.strokeStyle = this.color; x.lineWidth = 1.5; x.save(); x.translate(this.x, this.y); x.rotate(this.a); x.beginPath(); x.moveTo(0,-this.s); x.lineTo(this.s,this.s); x.lineTo(-this.s,this.s); x.closePath(); x.stroke(); x.restore(); }
+                update() { this.x += this.vx; this.y += this.vy; this.a += this.va; if (this.x<-this.s || this.x>this.c.width+this.s || this.y<-this.s || this.y>this.c.height+this.s) this.reset(); }
+                reset() { this.x = Math.random()*this.c.width; this.y = Math.random()*this.c.height; }
+            }
+            class Square {
+                constructor(c) { this.c = c; this.x = Math.random()*c.width; this.y = Math.random()*c.height; this.s = Math.random()*60+20; this.o = 0; this.maxO = Math.random()*0.2+0.05; this.life = 0; this.maxL = 250; }
+                draw(x) { x.fillStyle = `rgba(255,255,255,${this.o})`; x.fillRect(this.x-this.s/2, this.y-this.s/2, this.s, this.s); }
+                update() { this.life++; if(this.life < this.maxL/2) this.o += this.maxO/(this.maxL/2); else this.o -= this.maxO/(this.maxL/2); if(this.life >= this.maxL) this.reset(); }
+                reset() { this.x = Math.random()*this.c.width; this.y = Math.random()*this.c.height; this.life = 0; this.o = 0; }
+            }
+            class RainingLine {
+                constructor(c) { this.c = c; this.x = Math.random()*c.width; this.y = Math.random()*c.height; this.l = Math.random()*25+15; this.speed = Math.random()*1.5+0.5; this.color = `rgba(255,255,255,${Math.random()*0.25+0.1})`; }
+                draw(x) { x.strokeStyle = this.color; x.lineWidth = 1; x.beginPath(); x.moveTo(this.x, this.y); x.lineTo(this.x, this.y+this.l); x.stroke(); }
+                update() { this.y += this.speed; if(this.y > this.c.height) { this.y = 0-this.l; this.x = Math.random()*this.c.width; }}
+            }
+
+            // --- Lightbox Logic ---
+            const setupLightbox = () => {
+                document.querySelectorAll('.product-image-wrapper').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const src = item.getAttribute('data-src');
+                        lightboxImg.setAttribute('src', src);
+                        lightbox.classList.remove('hidden');
+                        document.body.style.overflow = 'hidden';
+                    });
+                });
+            };
+            setupLightbox();
+            lightboxClose.addEventListener('click', () => {
+                lightbox.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            });
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    lightbox.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // --- Mobile Menu ---
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            
+            // --- Smooth Scroll & Mobile Menu Close ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    if (this.getAttribute('href').length > 1) {
+                        e.preventDefault();
+                        document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+                        if (!mobileMenu.classList.contains('hidden')) mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+        
+            // Re-run reveal observer for dynamically added cards
+            document.querySelectorAll('.scroll-reveal').forEach(el => new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
+            }, { threshold: 0.1 }).observe(el));
+        });
+    </script>
+
+</body>
+</html>
