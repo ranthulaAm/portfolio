@@ -190,20 +190,39 @@ document.addEventListener('DOMContentLoaded', function() {
     applyDynamicStyles();
     apply3DEffects();
 
+    // --- MODAL AND STORY TEXT LOGIC ---
+    const storyModalImgContainer = document.getElementById('story-modal-img-container');
     let storyAnimationTimeouts = [];
+    
     function openStoryModal(item) {
         storyModalTitle.textContent = `The Story Behind "${item.title}"`;
         storyModalText.innerHTML = '';
         storyModalImg.src = item.imageUrl;
         storyModalContent.style.borderColor = item.colors[0] || 'var(--accent-purple)';
+        
+        const indicator = document.createElement('div');
+        indicator.className = 'drag-indicator';
+        indicator.innerHTML = '<span class="sub-text">Drag To</span><span class="main-text">Explore</span>';
+        storyModalImgContainer.appendChild(indicator);
+        
+        storyModalImg.style.objectPosition = 'center center';
+
         storyModalBackdrop.classList.remove('hidden');
         setTimeout(() => {
             storyModalBackdrop.classList.remove('opacity-0');
             storyModalContent.classList.remove('opacity-0', 'scale-95');
             animateStoryText(item.story);
+            setupPanningListeners();
         }, 10);
     }
+
     function closeStoryModal() {
+        const indicator = storyModalImgContainer.querySelector('.drag-indicator');
+        if (indicator) {
+            storyModalImgContainer.removeChild(indicator);
+        }
+
+        removePanningListeners();
         storyAnimationTimeouts.forEach(clearTimeout);
         storyAnimationTimeouts = [];
         storyModalContent.classList.add('opacity-0', 'scale-95');
@@ -212,6 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
             storyModalBackdrop.classList.add('hidden');
         }, 300);
     }
+    
     function animateStoryText(text) {
         storyModalText.innerHTML = '';
         const characters = text.split('');
@@ -254,6 +274,82 @@ document.addEventListener('DOMContentLoaded', function() {
             closeStoryModal();
         }
     });
+    
+    // --- DRAG-TO-MOVE IMAGE LOGIC ---
+    let isPanning = false, startX, startY, startObjectX, startObjectY;
+    
+    function getObjectPosition(element) {
+        const style = window.getComputedStyle(element).objectPosition;
+        const parts = style.split(' ').map(val => parseFloat(val));
+        return { x: parts[0] || 50, y: parts[1] || 50 };
+    }
+
+    function onPanStart(e) {
+        const isCropped = Math.abs((storyModalImg.naturalWidth / storyModalImg.naturalHeight) - (storyModalImg.clientWidth / storyModalImg.clientHeight)) > 0.02;
+        if (!isCropped) return;
+        
+        e.preventDefault();
+        isPanning = true;
+        storyModalImgContainer.classList.add('is-panning');
+
+        const currentX = e.touches ? e.touches[0].clientX : e.clientX;
+        const currentY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        startX = currentX;
+        startY = currentY;
+
+        const pos = getObjectPosition(storyModalImg);
+        startObjectX = pos.x;
+        startObjectY = pos.y;
+    }
+
+    function onPanMove(e) {
+        if (!isPanning) return;
+        e.preventDefault();
+        
+        const currentX = e.touches ? e.touches[0].clientX : e.clientX;
+        const currentY = e.touches ? e.touches[0].clientY : e.clientY;
+        
+        const deltaX = currentX - startX;
+        const deltaY = currentY - startY;
+        const sensitivity = 0.2; 
+        let newObjectX = startObjectX - (deltaX * sensitivity);
+        let newObjectY = startObjectY - (deltaY * sensitivity);
+
+        newObjectX = Math.max(0, Math.min(100, newObjectX));
+        newObjectY = Math.max(0, Math.min(100, newObjectY));
+
+        storyModalImg.style.objectPosition = `${newObjectX}% ${newObjectY}%`;
+    }
+
+    function onPanEnd() {
+        isPanning = false;
+        storyModalImgContainer.classList.remove('is-panning');
+    }
+
+    function setupPanningListeners() {
+        storyModalImgContainer.addEventListener('touchstart', onPanStart, { passive: false });
+        document.addEventListener('touchmove', onPanMove, { passive: false });
+        document.addEventListener('touchend', onPanEnd);
+        
+        storyModalImgContainer.addEventListener('mousedown', onPanStart);
+        document.addEventListener('mousemove', onPanMove);
+        document.addEventListener('mouseup', onPanEnd);
+        document.addEventListener('mouseleave', onPanEnd);
+    }
+
+    function removePanningListeners() {
+        storyModalImgContainer.removeEventListener('touchstart', onPanStart);
+        document.removeEventListener('touchmove', onPanMove);
+        document.removeEventListener('touchend', onPanEnd);
+        
+        storyModalImgContainer.removeEventListener('mousedown', onPanStart);
+        document.removeEventListener('mousemove', onPanMove);
+        document.removeEventListener('mouseup', onPanEnd);
+        document.removeEventListener('mouseleave', onPanEnd);
+    }
+    
+    // --- Rest of the script ---
     const contactImageContainer = document.getElementById('contact-image-container');
     if (contactImageContainer) {
         contactImageContainer.addEventListener('mouseenter', () => {
@@ -284,19 +380,16 @@ document.addEventListener('DOMContentLoaded', function() {
     document.fonts.ready.then(() => {
         runAnimationCycle();
     });
-
-    // --- CORRECTED CODE STARTS HERE ---
+    
     document.querySelectorAll('.scroll-reveal').forEach(el => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    // Stop observing the element after it has become visible
                     observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
         observer.observe(el);
     });
-    // --- CORRECTED CODE ENDS HERE ---
 });
