@@ -109,6 +109,7 @@ html {
       background-color: #000;
       transition: background 0.5s ease-in-out;
       aspect-ratio: 1 / 1;
+      position: relative; 
   }
   .glowing-button {
       position: relative;
@@ -251,3 +252,60 @@ html {
       transform: scale(1.08);
       filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.25)) brightness(1.1);
   }
+
+/* --- Image Panning Effect Styles --- */
+#story-modal-img {
+    transition: none;
+}
+
+#story-modal-img-container.is-panning {
+    cursor: grabbing;
+}
+
+/* --- Elegant Drag Indicator Styles --- */
+.drag-indicator {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Righteous', cursive;
+    text-align: right;
+    pointer-events: none;
+    z-index: 10;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    animation: fadeInIndicator 0.5s 0.5s forwards;
+}
+
+.drag-indicator .main-text {
+    font-size: 1.5rem; /* 24px */
+    line-height: 1;
+}
+
+.drag-indicator .sub-text {
+    font-size: 1rem; /* 16px */
+    line-height: 1;
+    display: block;
+    letter-spacing: 0.05em;
+    opacity: 0.6;
+}
+
+@keyframes fadeInIndicator {
+    to {
+        opacity: 0.8;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .drag-indicator {
+        top: 1rem;
+        right: 1rem;
+    }
+    .drag-indicator .main-text {
+        font-size: 1.25rem; /* 20px */
+    }
+    .drag-indicator .sub-text {
+        font-size: 0.875rem; /* 14px */
+    }
+}
