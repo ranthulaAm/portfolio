@@ -5,246 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranthula's Portfolio</title>
     <link rel="icon" type="image/png" href="img/logo.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Lato:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark: #121212;
-            --bg-light: #1E1E1E;
-            --text-light: #E0E0E0;
-            --accent-purple: #4c00ff;
-            --accent-magenta: #ff007f;
-            --accent-orange: #ff8c00;
-            --whatsapp-green-light: #25D366;
-            --whatsapp-green-dark: #128C7E;
-            --gradient-opacity: 0.3;
-        }
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            font-family: 'Lato', sans-serif;
-            cursor: auto;
-            position: relative;
-        }
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-magenta), var(--accent-orange));
-            background-size: 400% 400%;
-            animation: gradient-animation 15s ease infinite;
-            opacity: var(--gradient-opacity);
-            transition: opacity 4s ease-in-out;
-        }
-        .font-righteous {
-            font-family: 'Righteous', cursive;
-        }
-        .section-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            transition: opacity 4s ease-in-out;
-        }
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .content-section {
-            position: relative;
-            z-index: 1;
-            background-color: var(--bg-dark);
-            overflow: hidden;
-        }
-        .hero-section {
-            background-color: transparent;
-        }
-        .glass-effect, .product-card, .container {
-            position: relative;
-            z-index: 1;
-        }
-        .glass-effect {
-            background: rgba(30, 30, 30, 0.5);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-        }
-        .scroll-reveal.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .nav-link::after {
-            content: '';
-            display: block;
-            width: 0;
-            height: 2px;
-            background: var(--accent-magenta);
-            transition: width .3s;
-        }
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        .product-card-container, .contact-image-container {
-            perspective: 1000px;
-        }
-        .product-card {
-            background-color: var(--bg-light);
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            will-change: transform;
-        }
-        .product-image-wrapper {
-            background-color: #000;
-            transition: background 0.5s ease-in-out;
-            aspect-ratio: 1 / 1;
-        }
-        .glowing-button {
-            position: relative;
-            background: linear-gradient(90deg, var(--whatsapp-green-dark), var(--whatsapp-green-light));
-            animation: whatsapp-glow 2s ease-in-out infinite;
-        }
-        @keyframes whatsapp-glow {
-            0%, 100% {
-                box-shadow: 0 0 5px var(--whatsapp-green-light), 0 0 15px var(--whatsapp-green-light), 0 0 25px var(--whatsapp-green-dark), 0 0 35px var(--whatsapp-green-dark);
-            }
-            50% {
-                box-shadow: 0 0 10px var(--whatsapp-green-light), 0 0 25px var(--whatsapp-green-light), 0 0 40px var(--whatsapp-green-dark), 0 0 55px var(--whatsapp-green-dark);
-            }
-        }
-        
-        .animation-container {
-            text-align: center;
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-        .line {
-            position: relative;
-            display: block;
-            font-family: 'Righteous', cursive;
-            font-size: 2.5rem;
-            line-height: 1.3;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: transparent;
-            white-space: pre-wrap;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-        @media (min-width: 768px) {
-            .line {
-                font-size: 4rem;
-            }
-        }
-        .line-fg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            color: white;
-            overflow: hidden;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 255, 0.5);
-            clip-path: inset(0 50% 0 50%);
-            animation: reveal-from-center 1.5s cubic-bezier(0.7, 0, 0.3, 1) forwards, fade-glow-white 1.5s linear forwards;
-        }
-        @keyframes reveal-from-center {
-            from { clip-path: inset(0 50% 0 50%); }
-            to { clip-path: inset(0 0 0 0); }
-        }
-        @keyframes fade-glow-white {
-            0%, 50% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 255, 0.5); }
-            100% { text-shadow: none; }
-        }
 
-        #story-modal-backdrop {
-            transition: opacity 0.3s ease-in-out;
-        }
-        #story-modal-content {
-            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-            border-top: 4px solid transparent;
-        }
-        #story-modal-text span {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        #story-modal-text span.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        @keyframes slow-float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-        #contact-image-container {
-             transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-             will-change: transform;
-             animation: slow-float 8s ease-in-out infinite;
-        }
-        
-        #artist::before {
-            content: '';
-            position: absolute;
-            top: 10%;
-            left: 10%;
-            width: 80%;
-            height: 80%;
-            background-image: url('img/logo.png');
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: contain;
-            opacity: 0.12;
-            z-index: 0;
-            animation: logo-float 15s ease-in-out infinite;
-        }
-        @keyframes logo-float {
-            0%, 100% {
-                transform: translateY(0px) rotate(-2deg);
-            }
-            50% {
-                transform: translateY(-30px) rotate(2deg);
-            }
-        }
-
-        .header-logo-link img {
-            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), filter 0.4s ease;
-            filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.6));
-        }
-        .header-logo-link:hover img {
-            transform: scale(1.08);
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.25)) brightness(1.1);
-        }
-
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="overflow-x-hidden">
 
-    <!-- START: Story Modal -->
     <div id="story-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden opacity-0 p-4">
         <div id="story-modal-content" class="glass-effect rounded-lg max-w-4xl w-full transform scale-95 opacity-0 flex flex-col md:flex-row max-h-[85vh] overflow-y-auto md:overflow-y-hidden">
             <div class="md:w-1/2">
@@ -259,9 +30,6 @@
             </div>
         </div>
     </div>
-    <!-- END: Story Modal -->
-
-
     <header class="fixed top-0 left-0 right-0 z-40 glass-effect">
         <nav class="container mx-auto px-4 sm:px-6 py-2 flex justify-between items-center">
             <a href="#" class="header-logo-link">
@@ -280,8 +48,7 @@
             <canvas id="hero-canvas" class="section-canvas" data-animation-type="hero"></canvas>
             <div class="container mx-auto px-6 relative z-10">
                 <div id="animation-container" class="animation-container">
-                    <!-- Animated text will be generated here by JavaScript -->
-                </div>
+                    </div>
             </div>
         </section>
 
@@ -290,8 +57,7 @@
             <div class="container mx-auto px-6">
                 <h2 class="font-righteous text-4xl md:text-6xl text-center mb-16 scroll-reveal">The Collection</h2>
                 <div id="store-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
-                    <!-- Product cards will be dynamically inserted here -->
-                </div>
+                    </div>
             </div>
         </section>
 
@@ -299,7 +65,6 @@
             <div class="container mx-auto px-6">
                 <div class="glass-effect rounded-2xl p-8 lg:p-12 border border-purple-500/20">
                     <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-center">
-                        <!-- Left Side: Text and Skills -->
                         <div class="lg:col-span-3 space-y-6">
                             <h2 class="font-righteous text-4xl md:text-5xl scroll-reveal">About the Artist</h2>
                             <div class="space-y-4 text-lg leading-relaxed scroll-reveal" style="transition-delay: 100ms;">
@@ -316,7 +81,6 @@
                                 </ul>
                             </div>
                         </div>
-                        <!-- Right Side: Image -->
                         <div class="lg:col-span-2 flex items-center justify-center scroll-reveal" style="transition-delay: 300ms;">
                              <img src="img/X.jpg" alt="A photo of the artist" class="w-full h-auto max-w-sm lg:max-w-md object-cover rounded-2xl border-2 border-purple-500/50 shadow-2xl">
                         </div>
@@ -329,7 +93,6 @@
             <canvas class="section-canvas" data-animation-type="raining-lines"></canvas>
             <div class="container mx-auto px-6">
                 <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16 items-center">
-                    <!-- Left Column: Text Content -->
                     <div class="text-center md:text-left flex flex-col justify-center">
                         <h2 class="font-righteous text-4xl md:text-6xl scroll-reveal">Begin Your <span style="color: var(--accent-magenta);">Legacy Project</span></h2>
                         <p class="mt-4 text-lg max-w-xl mx-auto md:mx-0 scroll-reveal" style="transition-delay: 100ms;">Ready to create something extraordinary? Let's discuss your vision.</p>
@@ -348,10 +111,9 @@
                             </a>
                         </div>
                     </div>
-                    <!-- Right Column: Image -->
                     <div class="flex items-start justify-center scroll-reveal" style="transition-delay: 400ms;">
                         <div id="contact-image-container" class="contact-image-container relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full">
-                            <img id="contact-image" src="img/Z.jpg" crossorigin="anonymous" alt="Contact image of the artist" class="w-full h-full rounded-full object-cover">
+                            <img id="contact-image" src="img/Z.jpg" alt="Contact image of the artist" class="w-full h-full rounded-full object-cover">
                         </div>
                     </div>
                 </div>
@@ -364,464 +126,12 @@
             <p>&copy; 2025 Ranthula Amarasekara. All Rights Reserved.</p>
         </div>
     </footer>
+    
+    <script src="script.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
-            // --- Animation Classes ---
-            class AnimationRunner {
-                constructor(canvas) {
-                    this.canvas = canvas;
-                    this.ctx = canvas.getContext('2d');
-                    this.animationType = canvas.dataset.animationType;
-                    this.elements = [];
-                    this.animationFrameId = null;
-                    this.resize();
-                    this.init();
-                    window.addEventListener('resize', () => this.resize());
-                }
-                resize() {
-                    const parent = this.canvas.parentElement;
-                    this.canvas.width = parent.clientWidth;
-                    this.canvas.height = parent.clientHeight;
-                    this.init();
-                }
-                init() {
-                    this.elements = [];
-                    let numElements;
-                    const isMobile = window.innerWidth < 768;
-
-                    switch(this.animationType) {
-                        case 'hero':
-                            numElements = isMobile ? 25 : 50;
-                            for (let i = 0; i < numElements; i++) this.elements.push(new HeroLine(this.canvas));
-                            break;
-                        case 'circles':
-                            numElements = isMobile ? 15 : 25;
-                            for (let i = 0; i < numElements; i++) this.elements.push(new Circle(this.canvas));
-                            break;
-                        case 'raining-lines':
-                             numElements = isMobile ? 40 : 80;
-                            for (let i = 0; i < numElements; i++) this.elements.push(new RainingLine(this.canvas));
-                            break;
-                    }
-                }
-                animate() {
-                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                    this.elements.forEach(el => {
-                        el.draw(this.ctx);
-                        el.update();
-                    });
-                    this.animationFrameId = requestAnimationFrame(() => this.animate());
-                }
-                start() {
-                    if (!this.animationFrameId) this.animate();
-                }
-                stop() {
-                    if (this.animationFrameId) {
-                        cancelAnimationFrame(this.animationFrameId);
-                        this.animationFrameId = null;
-                    }
-                }
-            }
-            
-            class HeroLine {
-                constructor(canvas) {
-                    this.canvas = canvas;
-                    this.x = Math.random() * this.canvas.width;
-                    this.y = Math.random() * this.canvas.height;
-                    this.history = [{x: this.x, y: this.y}];
-                    this.lineWidth = Math.random() * 3.5 + 1.5;
-                    this.maxLength = Math.floor(Math.random() * 300 + 200);
-                    this.speedX = Math.random() * 2 - 1;
-                    this.speedY = Math.random() * 2 - 1;
-                    this.life = this.maxLength * 2;
-                    this.timer = 0;
-                    this.color = `rgba(255, 255, 255, ${Math.random() * 0.3 + 0.15})`;
-                }
-                draw(c) { c.strokeStyle = this.color; c.lineWidth = this.lineWidth; c.beginPath(); c.moveTo(this.history[0].x, this.history[0].y); for (const p of this.history) c.lineTo(p.x, p.y); c.stroke(); }
-                update() { this.timer++; if (this.timer < this.life){ this.x += this.speedX + Math.sin(this.timer * 0.02) * 0.8; this.y += this.speedY + Math.cos(this.timer * 0.02) * 0.8; this.history.push({x: this.x, y: this.y}); if (this.history.length > this.maxLength) this.history.shift(); } else if (this.history.length > 1) { this.history.shift(); } else { this.reset(); } }
-                reset() { this.x = Math.random() * this.canvas.width; this.y = Math.random() * this.canvas.height; this.history = [{x: this.x, y: this.y}]; this.timer = 0; }
-            }
-            class Circle {
-                constructor(c) { this.c = c; this.x = Math.random()*c.width; this.y = Math.random()*c.height; this.r = Math.random()*100+30; this.vx = Math.random()*0.4-0.2; this.vy = Math.random()*0.4-0.2; this.color = `rgba(255,255,255,${Math.random()*0.15+0.05})`; }
-                draw(x) { x.fillStyle = this.color; x.beginPath(); x.arc(this.x, this.y, this.r, 0, Math.PI*2); x.fill(); }
-                update() { this.x += this.vx; this.y += this.vy; if (this.x<-this.r || this.x>this.c.width+this.r || this.y<-this.r || this.y>this.c.height+this.r) this.reset(); }
-                reset() { this.x = Math.random()*this.c.width; this.y = Math.random()*this.c.height; }
-            }
-            
-            class RainingLine {
-                constructor(c) { this.c = c; this.x = Math.random()*c.width; this.y = Math.random()*c.height; this.l = Math.random()*25+15; this.speed = Math.random()*1.5+0.5; this.color = `rgba(255,255,255,${Math.random()*0.25+0.1})`; }
-                draw(x) { x.strokeStyle = this.color; x.lineWidth = 1; x.beginPath(); x.moveTo(this.x, this.y); x.lineTo(this.x, this.y+this.l); x.stroke(); }
-                update() { this.y += this.speed; if(this.y > this.c.height) { this.y = 0-this.l; this.x = Math.random()*this.c.width; }}
-            }
-
-            // --- START: Line-by-Line Glowing Text Animation ---
-            const container = document.getElementById('animation-container');
-            const heroCanvas = document.getElementById('hero-canvas');
-            const sentences = [
-                ["Hi!", "I'm Ranthula"],
-                ["Bring your ideas", "to life with", "vivid visuals!"]
-            ];
-            let sentenceIndex = 0;
-            let heroAnimationRunner = null;
-
-            async function runAnimationCycle() {
-                container.style.opacity = '1';
-
-                const currentSentenceLines = sentences[sentenceIndex];
-                const createdLineElements = [];
-
-                if (sentenceIndex === 0) {
-                    document.documentElement.style.setProperty('--gradient-opacity', '0.3');
-                    if (heroCanvas) heroCanvas.style.opacity = '0';
-                    if (heroAnimationRunner) heroAnimationRunner.stop();
-                } else if (sentenceIndex === 1) {
-                    if (heroAnimationRunner) heroAnimationRunner.start();
-                    if (heroCanvas) heroCanvas.style.opacity = '1';
-                    setTimeout(() => document.documentElement.style.setProperty('--gradient-opacity', '1'), 100);
-                }
-
-                for (const lineText of currentSentenceLines) {
-                    const lineDiv = document.createElement('div');
-                    lineDiv.className = 'line';
-                    lineDiv.textContent = lineText;
-                    
-                    const lineFgDiv = document.createElement('div');
-                    lineFgDiv.className = 'line-fg';
-                    lineFgDiv.textContent = lineText;
-                    
-                    lineDiv.appendChild(lineFgDiv);
-                    container.appendChild(lineDiv);
-                    createdLineElements.push(lineDiv);
-
-                    await new Promise(resolve => setTimeout(resolve, 50));
-                    lineDiv.style.opacity = '1';
-
-                    await new Promise(resolve => setTimeout(resolve, 800)); 
-                }
-
-                const pauseDuration = sentenceIndex === 1 ? 9000 : 2000;
-                await new Promise(resolve => setTimeout(resolve, pauseDuration));
-
-                for (const el of createdLineElements) {
-                    el.style.opacity = '0';
-                }
-                
-                await new Promise(resolve => setTimeout(resolve, 500));
-                
-                container.innerHTML = '';
-
-                sentenceIndex = (sentenceIndex + 1) % sentences.length;
-                runAnimationCycle();
-            }
-            
-            // --- END: Line-by-Line Glowing Text Animation ---
-
-
-            const portfolioData = [
-                {
-                    id: 'art1',
-                    title: "Wukong's Stand",
-                    description: 'A mythical warrior stands against a rising sun, embodying power and legend.',
-                    imageUrl: 'img/01.jpg',
-                    story: "This piece was inspired by the ancient tales of the Monkey King. The goal was to capture a moment of quiet strength before a great battle, using the stark contrast of the silhouette against a vibrant, hopeful dawn."
-                },
-                {
-                    id: 'art2',
-                    title: 'Golden Rivalry',
-                    description: "Anticipation builds for the 'Battle of Gold and Yellow', a modern gladiator's moment.",
-                    imageUrl: 'img/02.jpg',
-                    story: "A commission for a local sports tournament, this artwork focuses on the intense psychological moment between two rivals. The use of gold and yellow represents the two competing houses, creating a visual metaphor for the clash."
-                },
-                {
-                    id: 'art3',
-                    title: 'Stormy Pitch',
-                    description: 'A lone figure on a desolate pitch under a stormy sky. The calm before the battle.',
-                    imageUrl: 'img/03.jpg',
-                    story: "Exploring themes of isolation and determination, this piece places a solitary figure in a vast, intimidating landscape. The approaching storm symbolizes the internal and external challenges one must face."
-                },
-                {
-                    id: 'art4',
-                    title: "Ceylon's Finest",
-                    description: 'Vibrant product promotion capturing the fresh, natural essence of local cashews.',
-                    imageUrl: 'img/04.jpg',
-                    story: "For this commercial project, the client wanted to emphasize the natural and premium quality of their cashews. I used a rich, earthy color palette and dynamic composition to make the product feel both wholesome and exciting."
-                },
-                {
-                    id: 'art5',
-                    title: 'Grand Opening',
-                    description: 'A dynamic and smoky announcement, celebrating a new beginning with flavor.',
-                    imageUrl: 'img/05.jpg',
-                    story: "This design was created for the launch of a new restaurant. The smoky, energetic visuals were crafted to evoke the sizzle and aroma of a bustling kitchen, building anticipation for the grand opening."
-                },
-                {
-                    id: 'art6',
-                    title: 'The GOAT',
-                    description: 'A tribute to greatness, capturing the focus and legacy of a sporting icon.',
-                    imageUrl: 'img/06.jpg',
-                    story: "A personal project celebrating a sports hero. The artwork is intentionally minimalistic, focusing on the intense gaze and iconic silhouette to convey a sense of legacy and unparalleled greatness."
-                }
-            ];
-
-            // --- Global Element Selectors ---
-            const storeGrid = document.getElementById('store-grid');
-            
-            // --- Story Modal Elements ---
-            const storyModalBackdrop = document.getElementById('story-modal-backdrop');
-            const storyModalContent = document.getElementById('story-modal-content');
-            const storyModalImg = document.getElementById('story-modal-img');
-            const storyModalTitle = document.getElementById('story-modal-title');
-            const storyModalText = document.getElementById('story-modal-text');
-            const storyModalClose = document.getElementById('story-modal-close');
-
-            // --- Dynamic Product Card Generation ---
-            function generateProductCards() {
-                portfolioData.forEach((item, index) => {
-                    const cardHTML = `
-                        <div class="product-card-container scroll-reveal" style="transition-delay: ${index * 100}ms;">
-                            <div class="product-card rounded-lg overflow-hidden flex flex-col h-full" data-glow-id="${item.id}" data-item-id="${item.id}">
-                                <div class="product-image-wrapper w-full overflow-hidden cursor-pointer" data-src="${item.imageUrl}">
-                                   <img src="${item.imageUrl}" crossorigin="anonymous" onerror="this.onerror=null;this.src='https://placehold.co/600x600/121212/E0E0E0?text=Image+Not+Found';" alt="${item.title}" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500 ease-in-out">
-                                </div>
-                                <div class="p-6 flex-grow flex flex-col">
-                                    <h3 class="font-righteous text-2xl mb-2">${item.title}</h3>
-                                    <p class="text-gray-400 text-sm mb-4 flex-grow">${item.description}</p>
-                                    <button class="story-button mt-auto w-full text-white font-bold font-righteous py-2 px-4 rounded-full hover:opacity-90 transition-opacity" data-glow-id="${item.id}">Story of the Art</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    storeGrid.innerHTML += cardHTML;
-                });
-            }
-            
-            generateProductCards();
-
-            // --- Dynamic Gradient and 3D Effect Logic ---
-            const colorThief = new ColorThief();
-            const productCards = document.querySelectorAll('.product-card'); 
-            const styleSheet = document.createElement("style");
-            document.head.appendChild(styleSheet);
-
-            productCards.forEach(card => {
-                const imgElement = card.querySelector('img');
-                const wrapper = card.querySelector('.product-image-wrapper');
-                const glowId = card.dataset.glowId;
-
-                if (!glowId || !imgElement || !wrapper) return;
-
-                const setDynamicStyles = (img) => {
-                    if (img.naturalHeight === 0) {
-                        wrapper.style.background = '#1E1E1E';
-                        return;
-                    }
-
-                    try {
-                        const palette = colorThief.getPalette(img, 3);
-                        const color1 = `rgb(${palette[0].join(',')})`;
-                        const color2 = `rgb(${palette[1].join(',')})`;
-                        const color3 = `rgb(${palette[2].join(',')})`;
-                        
-                        wrapper.style.background = `linear-gradient(135deg, ${color1}, ${color2})`;
-
-                        const keyframesRule = `
-                            @keyframes glow-${glowId} {
-                                0%, 100% { box-shadow: 0 0 5px ${color2}, 0 0 15px ${color2}, 0 0 25px ${color1}, 0 0 35px ${color3}; }
-                                50% { box-shadow: 0 0 10px ${color2}, 0 0 25px ${color2}, 0 0 40px ${color1}, 0 0 55px ${color3}; }
-                            }`;
-                        
-                        const buttonRule = `
-                            .story-button[data-glow-id="${glowId}"] {
-                                background: linear-gradient(90deg, ${color1}, ${color2});
-                                animation: glow-${glowId} 2s ease-in-out infinite;
-                            }`;
-
-                        const cardHoverRule = `
-                            .product-card[data-glow-id="${glowId}"]:hover {
-                                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px ${color1};
-                            }`;
-
-                        styleSheet.sheet.insertRule(keyframesRule, styleSheet.sheet.cssRules.length);
-                        styleSheet.sheet.insertRule(buttonRule, styleSheet.sheet.cssRules.length);
-                        styleSheet.sheet.insertRule(cardHoverRule, styleSheet.sheet.cssRules.length);
-
-                    } catch (e) {
-                        console.error("Error applying dynamic styles for image:", img.src, e);
-                        wrapper.style.background = '#000';
-                    }
-                };
-                
-                if (imgElement.complete && imgElement.naturalHeight > 0) {
-                    setDynamicStyles(imgElement);
-                } else {
-                    imgElement.addEventListener('load', function() {
-                        setDynamicStyles(this);
-                    });
-                    imgElement.addEventListener('error', function() {
-                        wrapper.style.background = '#121212';
-                    });
-                }
-
-                const cardContainer = card.closest('.product-card-container');
-                if(cardContainer) {
-                    cardContainer.addEventListener('mousemove', (e) => {
-                        const rect = cardContainer.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-                        const { width, height } = rect;
-                        const rotateX = (y / height - 0.5) * -15;
-                        const rotateY = (x / width - 0.5) * 15;
-                        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-                    });
-
-                    cardContainer.addEventListener('mouseleave', () => {
-                        card.style.transform = 'rotateX(0) rotateY(0)';
-                    });
-                }
-            });
-            
-            // --- Story Modal Logic ---
-            let storyAnimationTimeouts = [];
-            function openStoryModal(item) {
-                storyModalTitle.textContent = `The Story Behind "${item.title}"`;
-                storyModalText.innerHTML = '';
-                storyModalImg.src = item.imageUrl;
-
-                const tempImg = new Image();
-                tempImg.crossOrigin = "Anonymous";
-                tempImg.src = item.imageUrl;
-                tempImg.onload = () => {
-                    const color = colorThief.getColor(tempImg);
-                    storyModalContent.style.borderColor = `rgb(${color.join(',')})`;
-                }
-                
-                storyModalBackdrop.classList.remove('hidden');
-                setTimeout(() => {
-                    storyModalBackdrop.classList.remove('opacity-0');
-                    storyModalContent.classList.remove('opacity-0', 'scale-95');
-                    animateStoryText(item.story);
-                }, 10);
-            }
-
-            function closeStoryModal() {
-                storyAnimationTimeouts.forEach(clearTimeout);
-                storyAnimationTimeouts = [];
-                storyModalContent.classList.add('opacity-0', 'scale-95');
-                storyModalBackdrop.classList.add('opacity-0');
-                setTimeout(() => {
-                    storyModalBackdrop.classList.add('hidden');
-                }, 300);
-            }
-
-            function animateStoryText(text) {
-                storyModalText.innerHTML = ''; // Clear previous content
-                const characters = text.split('');
-                characters.forEach((char, index) => {
-                    const span = document.createElement('span');
-                    if (char === ' ') {
-                        span.innerHTML = '&nbsp;';
-                    } else {
-                        span.textContent = char;
-                    }
-                    storyModalText.appendChild(span);
-
-                    const timeoutId = setTimeout(() => {
-                        span.classList.add('visible');
-                    }, index * 20); // Staggered delay for each character
-                    storyAnimationTimeouts.push(timeoutId);
-                });
-            }
-
-            storeGrid.addEventListener('click', (e) => {
-                const storyButton = e.target.closest('.story-button');
-                if (storyButton) {
-                    const card = storyButton.closest('.product-card');
-                    const itemId = card.dataset.itemId;
-                    const itemData = portfolioData.find(item => item.id === itemId);
-                    if (itemData) {
-                        openStoryModal(itemData);
-                    }
-                }
-            });
-
-            storyModalClose.addEventListener('click', closeStoryModal);
-            storyModalBackdrop.addEventListener('click', (e) => {
-                if (e.target === storyModalBackdrop) {
-                    closeStoryModal();
-                }
-            });
-
-
-            // --- START: Add 3D effect to Artist Photo ---
-            const artistPhotoCard = document.getElementById('artist-photo-card');
-            if (artistPhotoCard) {
-                artistPhotoCard.addEventListener('mousemove', (e) => {
-                    const rect = artistPhotoCard.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const { width, height } = rect;
-                    const rotateX = (y / height - 0.5) * -15; // Invert rotation for natural feel
-                    const rotateY = (x / width - 0.5) * 15;
-                    artistPhotoCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.1, 1.1, 1.1)`;
-                    artistPhotoCard.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.5)'; // Add shadow on hover
-                });
-
-                artistPhotoCard.addEventListener('mouseleave', () => {
-                    artistPhotoCard.style.transform = 'rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-                    artistPhotoCard.style.boxShadow = 'none'; // Remove shadow on leave
-                });
-            }
-            // --- END: Add 3D effect to Artist Photo ---
-
-            // --- START: Contact Image 3D Effect ---
-            const contactImageContainer = document.getElementById('contact-image-container');
-
-            if (contactImageContainer) {
-                contactImageContainer.addEventListener('mouseenter', () => {
-                    contactImageContainer.style.animationPlayState = 'paused';
-                });
-
-                contactImageContainer.addEventListener('mousemove', (e) => {
-                    const rect = contactImageContainer.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const { width, height } = rect;
-                    const rotateX = (y / height - 0.5) * -10;
-                    const rotateY = (x / width - 0.5) * 10;
-                    contactImageContainer.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
-                });
-
-                contactImageContainer.addEventListener('mouseleave', () => {
-                    contactImageContainer.style.animationPlayState = 'running';
-                    contactImageContainer.style.transform = '';
-                });
-            }
-            // --- END: Contact Image 3D Effect ---
-
-
-            // --- Section-based Canvas Animations ---
-            document.querySelectorAll('.section-canvas').forEach(canvas => {
-                const runner = new AnimationRunner(canvas);
-                if (canvas.id === 'hero-canvas') {
-                    heroAnimationRunner = runner; // Store the hero runner separately
-                } else if(canvas) { // Ensure canvas exists before starting
-                    runner.start(); // Start other animations immediately
-                }
-            });
-
-            // Start the text animation cycle once fonts are ready
-            document.fonts.ready.then(() => {
-                runAnimationCycle();
-            });
-        
-            // Re-run reveal observer for dynamically added cards
-            document.querySelectorAll('.scroll-reveal').forEach(el => new IntersectionObserver((entries) => {
-                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
-            }, { threshold: 0.1 }).observe(el));
-        });
+      document.addEventListener('contextmenu', event => event.preventDefault());
     </script>
 
 </body>
 </html>
-
