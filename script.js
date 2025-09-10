@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function applyDynamicStyles() {
-        let allRules = ''; 
+        let allRules = '';
         portfolioData.forEach(item => {
             if (!item.colors) return;
             const [color1, color2] = item.colors;
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
         styleElement.innerHTML = allRules;
         document.head.appendChild(styleElement);
     }
-    
+
     function apply3DEffects() {
         const productCards = document.querySelectorAll('.product-card');
         productCards.forEach(card => {
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
             storyAnimationTimeouts.push(timeoutId);
         });
     }
-    
+
     storeGrid.addEventListener('click', (e) => {
         const storyButton = e.target.closest('.story-button');
         const imageWrapper = e.target.closest('.product-image-wrapper');
@@ -284,7 +284,19 @@ document.addEventListener('DOMContentLoaded', function() {
     document.fonts.ready.then(() => {
         runAnimationCycle();
     });
-    document.querySelectorAll('.scroll-reveal').forEach(el => new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
-    }, { threshold: 0.1 }).observe(el));
+
+    // --- CORRECTED CODE STARTS HERE ---
+    document.querySelectorAll('.scroll-reveal').forEach(el => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Stop observing the element after it has become visible
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        observer.observe(el);
+    });
+    // --- CORRECTED CODE ENDS HERE ---
 });
