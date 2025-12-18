@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
         description: 'An artwork created for real customer',
         imageUrl: 'img/06.jpg',
         story: "I created that artwork for a customer who requested it, successfully turning his idea into a visual representation.",
-        colors: ['rgb(251, 64, 64)', 'rgb(255, 0, 0)']
+        colors: ['rgb(251, 64, 64)', 'rgb(131, 3, 3)']
     }];
 
     const storeGrid = document.getElementById('store-grid');
