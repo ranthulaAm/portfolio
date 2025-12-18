@@ -100,14 +100,14 @@ document.addEventListener('DOMContentLoaded', function() {
         description: 'A dynamic and smoky announcement, celebrating a new beginning with flavor.',
         imageUrl: 'img/05.jpg',
         story: "A new restaurant isn't just a place to eat; it's a dream coming true. I wanted to capture the sizzle, the smoke, and the excitement of that first day. This design is all about building anticipation and making you feel the energy and flavor before you even walk through the door.",
-        colors: ['rgb(100, 70, 50)', 'rgb(255, 160, 80)']
+        colors: ['rgb(135, 56, 3)', 'rgb(255, 160, 80)']
     }, {
         id: 'art6',
-        title: 'The GOAT',
-        description: 'A tribute to greatness, capturing the focus and legacy of a sporting icon.',
+        title: 'The Wings',
+        description: 'An artwork created for real customer',
         imageUrl: 'img/06.jpg',
-        story: "As a fan, you see more than just a player; you see a legend. This was a personal project to capture the two sides of Messi: the focused champion on the field and the thoughtful icon whose legacy is already written. It's my way of saying 'thank you' for the magic.",
-        colors: ['rgb(60, 120, 190)', 'rgb(140, 200, 255)']
+        story: "I created that artwork for a customer who requested it, successfully turning his idea into a visual representation.",
+        colors: ['rgb(210, 0, 0)', 'rgb(255, 0, 0)']
     }];
 
     const storeGrid = document.getElementById('store-grid');
