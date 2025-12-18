@@ -71,14 +71,14 @@ document.addEventListener('DOMContentLoaded', function() {
         title: "Wukong's Stand",
         description: 'A mythical warrior stands against a rising sun, embodying power and legend.',
         imageUrl: 'img/01.jpg',
-        story: "Ever since I was a kid, the legend of the Monkey King amazed me. I wanted to capture that one quiet moment right before the world erupts into battle—a hero, his weapon, and a sky full of impossible promise. This piece is my tribute to that feeling of limitless power.",
+        story: "From the time I was a child, the enchanting tales of the Monkey King fascinated me. His daring adventures and formidable powers sparked my imagination like nothing else. I have always yearned to capture that fleeting moment just before chaos unfurls—a hero standing tall, gripping a magical staff, with a sky painted in vibrant hues of orange and purple, hinting at the impending storm of battle. This artwork is my heartfelt tribute to that exhilarating sensation of boundless strength and potential, where the air is thick with anticipation and anything feels possible.",
         colors: ['rgb(210, 100, 0)', 'rgb(255, 190, 80)']
     }, {
         id: 'art2',
         title: 'Golden Rivalry',
         description: "Anticipation builds for the 'Battle of Gold and Yellow'...",
         imageUrl: 'img/02.jpg',
-        story: "This was for a local college's big match, and you could feel the energy in the air. It wasn’t just about the game; it was about pride and history. I tried to bottle that intense, electric moment right before the first ball is bowled, where anything feels possible.",
+        story: "",
         colors: ['rgb(140, 20, 20)', 'rgb(255, 190, 40)']
     }, {
         id: 'art3',
